@@ -1,0 +1,44 @@
+name: Build APK
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Create Flutter Project
+        run: |
+          flutter create --org com.dolarve --project-name dolar_ve app
+          cp -r src/pubspec.yaml app/
+          cp -r src/lib/* app/lib/
+          
+      - name: Build APK
+        working-directory: ./app
+        run: |
+          flutter pub get
+          flutter build apk --release
+          
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: app/build/app/outputs/flutter-apk/app-release.apk
+          tag_name: v1.0.${{ github.run_number }}
+          name: App DolarVE v1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
