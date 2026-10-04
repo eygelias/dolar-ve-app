@@ -7,3 +7,7 @@ Aplicación de código abierto para consultar y calcular en tiempo real usando l
 ## Descargar APK
 
 Puedes descargar la última versión de la aplicación en formato `.apk` dirigiéndote a la sección de **[Releases](../../releases)** de este repositorio. Cada vez que haya un cambio, GitHub Actions compilará una nueva versión automáticamente.
+
+
+---
+**SEO Tags:** $tags
